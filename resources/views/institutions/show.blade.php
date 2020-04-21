@@ -13,7 +13,8 @@
                     <div class="col s12 center-align">
                         <a href="{{ route('institutions.edit', $institution) }}" class="btn btn-lg">Edit this
                             institution</a>
-                        <a href="{{ route('institutions.teams.create', $institution) }}" class="btn btn-lg">Add a new team</a>
+                        <a href="{{ route('institutions.teams.create', $institution) }}" class="btn btn-lg">Add a new
+                            team</a>
                     </div>
                 </div>
 
@@ -28,7 +29,11 @@
                         @else
                             <div class="collection">
                                 @foreach($teams as $team)
-                                    <a href="#!" class="collection-item">{{ $team->name }}</a>
+                                    <a href="{{ route('institutions.teams.show', [$institution, $team]) }}"
+                                       class="collection-item" style="color: {{ $institution->color }}">
+                                        <span class="chip white-text" style="background-color: {{ $institution->color }}">{{ $team->folding_id }}</span>
+                                        {{ $team->name }}
+                                    </a>
                                 @endforeach
                             </div>
                         @endempty

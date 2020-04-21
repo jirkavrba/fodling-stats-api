@@ -18,9 +18,9 @@ class CreateTeamsTable extends Migration
             $table->integer('folding_id')->unique();
             $table->string('name');
 
-            $table->integer('institution_id');
+            $table->enum('type', [ 'team', 'donor' ])->default('team');
 
-            $table->foreign('institution_id')
+            $table->integer('institution_id')
                 ->references('id')
                 ->on('institutions')
                 ->cascadeOnDelete();
