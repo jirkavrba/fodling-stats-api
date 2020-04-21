@@ -1,18 +1,26 @@
 <?php
 
+use App\Http\Controllers\AuthenticationController;
+use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ApplicationController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+// Redirect the user to client application
+Route::get('/', [ApplicationController::class, 'redirect'])->name('index');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// The routes that are used to authenticate the user
+Route::get('/login', [AuthenticationController::class, 'gate'])->name('authentication.gate');
+Route::post('/login', [AuthenticationController::class, 'login'])->name('authentication.login');
+
+
+// All other routes are prefixed with the /admin path and requires an authenticated session
+Route::prefix('/admin')
+    ->middleware(Authenticate::class)
+    ->group(static function () {
+
+        // The logout route should be only accessible, if the user is already logged in
+        Route::any('/logout', [AuthenticationController::class, 'logout'])->name('authentication.logout');
+
+        Route::get('/', static function () { return "Hello, World!"; })->name('administration.index');
+
+    });
