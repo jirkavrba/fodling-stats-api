@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdministrationController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +22,5 @@ Route::prefix('/admin')
         // The logout route should be only accessible, if the user is already logged in
         Route::any('/logout', [AuthenticationController::class, 'logout'])->name('authentication.logout');
 
-        Route::get('/', static function () { return "Hello, World!"; })->name('administration.index');
-
+        Route::get('/', [AdministrationController::class, 'index'])->name('administration.index');
     });
