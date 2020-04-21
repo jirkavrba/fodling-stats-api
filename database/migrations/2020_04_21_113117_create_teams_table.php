@@ -18,6 +18,8 @@ class CreateTeamsTable extends Migration
             $table->integer('folding_id')->unique();
             $table->string('name');
 
+            $table->integer('institution_id');
+
             $table->foreign('institution_id')
                 ->references('id')
                 ->on('institutions')
