@@ -28,6 +28,15 @@
     </nav>
 </header>
 <main>
+    @if ($errors->any())
+        <section class="section">
+            <div class="container">
+                <div class="card-panel red white-text">
+                    {{ $errors->first() }}
+                </div>
+            </div>
+        </section>
+    @endif
     <div class="container">
         @yield('main')
     </div>
