@@ -27,6 +27,4 @@ Route::prefix('/admin')
 
         Route::resource('institutions', InstitutionController::class)->except('index');
         Route::resource('institutions.teams', TeamController::class)->except('index');
-
-        Route::get('/test', static function () { \Illuminate\Support\Facades\Artisan::call('teams:fetch-results'); });
     });
