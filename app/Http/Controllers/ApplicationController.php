@@ -18,6 +18,6 @@ class ApplicationController extends Controller
             return redirect()->to('http://localhost:8080');
         }
 
-        return redirect()->to('https://folding.vrba.dev');
+        return redirect()->to('https://folding.fit.cvut.cz');
     }
 }
