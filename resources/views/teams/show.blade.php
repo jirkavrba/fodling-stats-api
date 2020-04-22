@@ -28,9 +28,20 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="card-title center-align">Score history of {{ $institution->name }}</div>
-                        <p>
-                            TODO
-                        </p>
+                        @empty($results->all())
+                            <div class="center-align">
+                                <div class="chip">This team has no score results yet</div>
+                            </div>
+                        @else
+                            <div class="collection">
+                                @foreach($results as $result)
+                                    <div class="collection-item">
+                                        <div class="chip">{{ (new \Carbon\Carbon($result->datetime))->format('d.m.Y H:i') }}</div>
+                                        <b>{{ $result->score }}</b>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endempty
                     </div>
                 </div>
             </div>

@@ -59,7 +59,7 @@ class TeamController extends Controller
         $data = [
             'institution' => $institution,
             'team' => $team,
-            // TODO: score history
+            'results' => $team->results
         ];
 
         return response()->view('teams.show', $data);
@@ -94,7 +94,7 @@ class TeamController extends Controller
     {
         if ($request->input('folding_id') !== $team->folding_id)
         {
-            // TODO: reset score history
+            $team->results()->delete();
         }
 
         $data = $request->only('name', 'folding_id', 'type');
