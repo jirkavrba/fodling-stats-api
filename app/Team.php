@@ -14,6 +14,12 @@ class Team extends Model
         'institution_id',
     ];
 
+    protected $hidden = [
+        'institution_id',
+        'created_at',
+        'updated_at',
+    ];
+
     public function institution(): BelongsTo
     {
         return $this->belongsTo(Institution::class, 'institution_id', 'id');

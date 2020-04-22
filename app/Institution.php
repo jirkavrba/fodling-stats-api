@@ -13,6 +13,11 @@ class Institution extends Model
         'color'
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
     public function teams(): HasMany
     {
         return $this->hasMany(Team::class, 'institution_id', 'id');
