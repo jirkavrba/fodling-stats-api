@@ -19,9 +19,11 @@
 
                 <div class="row">
                     <div class="col s12 center-align">
-                        <a href="{{ route('institutions.teams.edit', [$institution, $team]) }}" class="btn btn-lg">Edit this
+                        <a href="{{ route('institutions.teams.edit', [$institution, $team]) }}" class="btn btn-lg">Edit
+                            this
                             team</a>
-                        <a href="https://stats.foldingathome.org/{{ $team->type }}/{{ $team->folding_id }}" target="_blank" class="btn btn-lg">View team at folding</a>
+                        <a href="https://stats.foldingathome.org/{{ $team->type }}/{{ $team->folding_id }}"
+                           target="_blank" class="btn btn-lg">View team at folding</a>
                     </div>
                 </div>
 
@@ -33,14 +35,39 @@
                                 <div class="chip">This team has no score results yet</div>
                             </div>
                         @else
-                            <div class="collection">
-                                @foreach($results as $result)
-                                    <div class="collection-item">
-                                        <div class="chip">{{ (new \Carbon\Carbon($result->datetime))->format('d.m.Y H:i') }}</div>
-                                        <b>{{ $result->score }}</b>
-                                    </div>
-                                @endforeach
-                            </div>
+                            <canvas id="chart"></canvas>
+
+                            <link rel="stylesheet"
+                                  href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css">
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+                            <script>
+                                (function () {
+                                    const context = document.getElementById('chart').getContext('2d');
+                                    const chart = new Chart(context, {
+                                        type: 'line',
+                                        data: {
+                                            labels: [
+                                                @foreach ($team->results as $score)
+                                                    "{{ $score->datetime }}",
+                                                @endforeach
+                                            ],
+                                            datasets: [
+                                                {
+                                                    label: "{{ $team->name }}",
+                                                    data: [
+                                                        @foreach ($team->results as $score)
+                                                            {{ $score->score }},
+                                                        @endforeach
+                                                    ],
+                                                    fill: false,
+                                                    borderColor: "{{ $team->institution->color }}"
+                                                }
+                                            ],
+                                        }
+                                })
+                                    ;
+                                })()
+                            </script>
                         @endempty
                     </div>
                 </div>
