@@ -2,10 +2,16 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * Class Team
+ * @package App
+ * @property-read Collection $results
+ */
 class Team extends Model
 {
     protected $fillable = [
@@ -15,10 +21,17 @@ class Team extends Model
     ];
 
     protected $hidden = [
+        'folding_id', // Aliased as id
         'institution_id',
         'created_at',
         'updated_at',
     ];
+
+    public function getRouteKeyName()
+    {
+        return 'folding_id';
+    }
+
 
     public function institution(): BelongsTo
     {
