@@ -40,7 +40,7 @@ class ApiController extends Controller
         $history = $team->results->each(fn($result) => $result->datetime = (new DateTime($result->datetime))->getTimestamp());
 
         $data = [
-            'id'  => $team->id,
+            'id'  => $team->folding_id,
             'name' => $team->name,
             'logo' => $team->institution->logo,
             'color' => $team->institution->color,
