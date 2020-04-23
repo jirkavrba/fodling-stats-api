@@ -37,8 +37,14 @@ class ApiController extends Controller
     public function team(Team $team): JsonResponse
     {
         // Convert saved datetime to unix timestamp
-        $data = $team->results
-            ->each(fn($result) => $result->datetime = (new DateTime($result->datetime))->getTimestamp());
+        $history = $team->results->each(fn($result) => $result->datetime = (new DateTime($result->datetime))->getTimestamp());
+
+        $data = [
+            'name' => $team->name,
+            'logo' => $team->institution->logo,
+            'color' => $team->institution->color,
+            'history' => $history,
+        ];
 
         return response()->json($data);
     }
