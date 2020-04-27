@@ -42,9 +42,9 @@ class ApiController extends Controller
         // Last points increment over time span
         $increment = null;
 
-        if ($history->count() >= 2)
+        if ($history->count() >= 5) // 4 records per day
         {
-            $increment = $history->last()->score - $history->get($history->count() - 2)->score;
+            $increment = $history->last()->score - $history->get($history->count() - 5)->score;
         }
 
         $data = [
