@@ -39,12 +39,21 @@ class ApiController extends Controller
         // Convert saved datetime to unix timestamp
         $history = $team->results->each(fn($result) => $result->datetime = (new DateTime($result->datetime))->getTimestamp());
 
+        // Last points increment over time span
+        $increment = null;
+
+        if ($history->count() >= 2)
+        {
+            $increment = $history->last()->score - $history->get($history->count() - 2)->score;
+        }
+
         $data = [
             'id'  => $team->folding_id,
             'name' => $team->name,
             'logo' => $team->institution->logo,
             'color' => $team->institution->color,
             'type' => $team->type,
+            'increment' => $increment,
             'history' => $history,
         ];
 
