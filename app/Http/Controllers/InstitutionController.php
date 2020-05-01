@@ -8,6 +8,7 @@ use App\Http\Requests\Institutions\UpdateInstitutionRequest;
 use App\Institution;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 
 class InstitutionController extends Controller
 {
@@ -33,6 +34,9 @@ class InstitutionController extends Controller
 
         $institution = new Institution($data);
         $institution->save();
+
+        Cache::forget('institutions');
+        Cache::forget('teams');
 
         return redirect()->route('institutions.show', $institution);
     }
@@ -81,6 +85,9 @@ class InstitutionController extends Controller
 
         $institution->update($data);
 
+        Cache::forget('institutions');
+        Cache::forget('teams');
+
         return redirect()->route('institutions.show', $institution);
 
     }
@@ -102,6 +109,9 @@ class InstitutionController extends Controller
 
         // This will also delete all assigned teams, as there is a foreign key on delete policy
         $institution->delete();
+
+        Cache::forget('institutions');
+        Cache::forget('teams');
 
         return redirect()->route('administration.index');
     }

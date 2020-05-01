@@ -8,6 +8,7 @@ use App\Institution;
 use App\Team;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 
 class TeamController extends Controller
 {
@@ -43,6 +44,9 @@ class TeamController extends Controller
 
         $team = new Team($data);
         $team->save();
+
+        Cache::forget('institutions');
+        Cache::forget('teams');
 
         return redirect()->route('institutions.show', $institution);
     }
@@ -100,6 +104,10 @@ class TeamController extends Controller
         $data = $request->only('name', 'folding_id', 'type');
         $team->update($data);
 
+        Cache::forget('institutions');
+        Cache::forget('teams');
+        Cache::forget("team.$team->id");
+
         return redirect()->route('institutions.teams.show', [$institution, $team]);
     }
 
@@ -114,6 +122,10 @@ class TeamController extends Controller
     {
         // This will also delete the score history
         $team->delete();
+
+        Cache::forget('institutions');
+        Cache::forget('teams');
+        Cache::forget("team.$team->id");
 
         return redirect()->route('institutions.show', $institution);
     }

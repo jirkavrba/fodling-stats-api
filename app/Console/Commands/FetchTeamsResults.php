@@ -6,6 +6,7 @@ use App\Service\FoldingApiService;
 use App\Team;
 use App\TeamResult;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 
 class FetchTeamsResults extends Command
 {
@@ -52,6 +53,8 @@ class FetchTeamsResults extends Command
 
                 $record->save();
             }
+
+            Cache::forget("team.$team->id");
         }
     }
 }
